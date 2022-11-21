@@ -48,5 +48,13 @@ $ source venv\bin\activate
 
 # Cite this
 ```
-To be defined.
+@misc{10.48550/arxiv.2209.00721,
+  doi = {10.48550/ARXIV.2209.00721},
+  url = {https://arxiv.org/abs/2209.00721},
+  author = {Bertoli, Gustavo de Carvalho and Junior, Lourenço Alves Pereira and Santos, Aldri Luiz dos and Saotome, Osamu},
+  title = {Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
+}
 ```
