@@ -16,6 +16,12 @@ $ source venv\bin\activate
 (venv) $ pip install Cython
 (venv) $ pip install -r requirements.txt
 ```
+
+## Some possible configurations
+- To simulate other federated learning strategies of aggregation, the changes must be made to `server.py` according to [Flower documentation](https://flower.dev/docs/strategies.html).
+- To remove the EFC as part of the autoencoder, remove the argument `--with-EFC` from the shellscript files.
+- Select between `just benign` or `benign and attack` threshold for the autoencoder. Edit the file `client.py`, the `test_eval` assigned to `distance_calc` method refers to both thresholds, and assigned to the comparison of `losses` to `threshold_benign` for the only benign case.
+
 # Content of this repository
 ```
 .
@@ -39,9 +45,6 @@ $ source venv\bin\activate
     └── model.py			--> code for autoencoder
 ```
 
-To simulate other federated learning strategies of aggreagation, the changes must be made to `server.py` according to Flower documentation.
-
-To remove the EFC as part of the autoencoder, remove the argument `--with-EFC` from the shellscript files.
 
 # Cite this
 ```
