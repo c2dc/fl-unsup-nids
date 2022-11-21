@@ -10,11 +10,13 @@
 echo "Starting Federated Learning server using Flower"
 
 python server.py --with_efc &
+# python server.py & # without EFC
 sleep 10  # Sleep to give the server enough time to start
 
 for filename in ./sampled_datasets/*.csv.gz; do
     echo "Starting client with silo $filename"
     python client.py --silo=${filename} --with_efc &
+    # python client.py --silo=${filename} & # without EFC
 done
 
 # This will allow you to use CTRL+C to stop all background processes
