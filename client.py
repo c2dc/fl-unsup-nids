@@ -134,8 +134,8 @@ class FlwrClient(fl.client.NumPyClient):
 
         acc, rec, prec, f1, mcc, missrate, fallout, auc = eval_learning(self.y_test, test_eval)
 
-        compare = pd.DataFrame([yreal == yhat for yreal, yhat in zip(self.y_test, test_eval)], columns=["Predict"])
-        compare.to_csv("./extra/" + self.pre_cid + "_predicts.csv", index=False)
+        # compare = pd.DataFrame([yreal == yhat for yreal, yhat in zip(self.y_test, test_eval)], columns=["Predict"])
+        # compare.to_csv("./extra/" + self.pre_cid + "_predicts.csv", index=False)
 
         output_dict = {"acc": acc, "rec": rec, "prec": prec, "f1": f1, "mcc": mcc, "missrate": missrate,
                 "fallout": fallout, "auc": auc}
