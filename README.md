@@ -1,14 +1,13 @@
 # Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach
 
-## Abstract
-> This repository relates to our paper that describes the stacked-unsupervised federated learning (FL) approach to generalize on a cross-silo configuration for a flow-based network intrusion detection system (NIDS). The proposed approach we have examined comprises a deep autoencoder in conjunction with an energy flow classifier in an ensemble learning task. 
+This repository relates to our paper that describes the stacked-unsupervised federated learning (FL) approach to generalize on a cross-silo configuration for a flow-based network intrusion detection system (NIDS). The proposed approach we have examined comprises a deep autoencoder in conjunction with an energy flow classifier in an ensemble learning task. 
 
-> Our approach performs better than traditional local learning and naive cross-evaluation (training in one context and testing on another network data). Remarkably, the proposed approach demonstrates a sound performance in the case of non-iid data silos. In conjunction with an informative feature in an ensemble architecture for unsupervised learning, we advise that the proposed FL-based NIDS results in a feasible approach for generalization between heterogeneous networks.
+Our approach performs better than traditional local learning and naive cross-evaluation (training in one context and testing on another network data). Remarkably, the proposed approach demonstrates a sound performance in the case of non-iid data silos. In conjunction with an informative feature in an ensemble architecture for unsupervised learning, we advise that the proposed FL-based NIDS results in a feasible approach for generalization between heterogeneous networks.
 
 # Reproducing this work
 Install the requirements to reproduce this work:
 
-- Python 3.9.11
+- Tested with Python 3.9.11
 
 ```commandline
 $ python -m venv venv
@@ -35,9 +34,9 @@ $ source venv\bin\activate
 ├── sampled_datasets	 --> the sampled datasets (*.csv.gz)
 ├── server.py		 --> the source code for federated learning server
 └── utils
-    ├── generate_reduced_datasets.py	--> generated reduced datasets
+    ├── generate_reduced_datasets.py	--> generate reduced datasets
     ├── load_data.py			--> code for loading datasets
-    └─── model.py			--> code for autoencoder
+    └── model.py			--> code for autoencoder
 ```
 
 To simulate other federated learning strategies of aggreagation, the changes must be made to `server.py` according to Flower documentation.
