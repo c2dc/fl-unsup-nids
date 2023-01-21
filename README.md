@@ -48,13 +48,15 @@ $ source venv\bin\activate
 
 # Cite this
 ```
-@misc{10.48550/arxiv.2209.00721,
-  doi = {10.48550/ARXIV.2209.00721},
-  url = {https://arxiv.org/abs/2209.00721},
-  author = {Bertoli, Gustavo de Carvalho and Junior, Lourenço Alves Pereira and Santos, Aldri Luiz dos and Saotome, Osamu},
-  title = {Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+@article{10.1016/j.cose.2023.103106,
+    title = {Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach},
+    journal = {Computers & Security},
+    pages = {103106},
+    year = {2023},
+    issn = {0167-4048},
+    doi = {https://doi.org/10.1016/j.cose.2023.103106},
+    url = {https://www.sciencedirect.com/science/article/pii/S0167404823000160},
+    author = {Gustavo {de Carvalho Bertoli} and Lourenço Alves {Pereira Junior} and Osamu Saotome and Aldri Luiz {dos Santos}},
+    keywords = {Network Intrusion Detection, Generalization, Unsupervised Learning, Federated Learning, Network flows}
 }
 ```
