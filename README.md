@@ -50,7 +50,7 @@ $ source venv\bin\activate
 ```
 @article{10.1016/j.cose.2023.103106,
 title = {Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach},
-journal = {Computers & Security},
+journal = {Computers \& Security},
 pages = {103106},
 year = {2023},
 issn = {0167-4048},
