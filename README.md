@@ -1,11 +1,11 @@
 # Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach
 
-This repository relates to our paper that describes the stacked-unsupervised federated learning (FL) approach to generalize on a cross-silo configuration for a flow-based network intrusion detection system (NIDS). The proposed approach we have examined comprises a deep autoencoder in conjunction with an energy flow classifier in an ensemble learning task. 
+This repository relates to our paper that describes the stacked-unsupervised federated learning (FL) approach to generalize on a cross-silo configuration for a flow-based network intrusion detection system (NIDS). The proposed approach we have looked over is a deep autoencoder in conjunction with an energy flow classifier in an ensemble learning task. 
 
-Our approach performs better than traditional local learning and naive cross-evaluation (training in one context and testing on another network data). Remarkably, the proposed approach demonstrates a sound performance in the case of non-iid data silos. In conjunction with an informative feature in an ensemble architecture for unsupervised learning, we advise that the proposed FL-based NIDS results in a feasible approach for generalization between heterogeneous networks.
+Our approach performs better than traditional local learning and naive cross-evaluation (training in one context and testing on another network data). Remarkably, the proposed approach demonstrates a sound performance in the case of non-iid data silos. Along with an informative feature in an ensemble architecture for unsupervised learning, we advise that the proposed FL-based NIDS results in a feasible approach for generalization between heterogeneous networks.
 
 # Reproducing this work
-Install the requirements to reproduce this work:
+1. Install the requirements to reproduce this work:
 
 - Tested with Python 3.9.11
 
@@ -16,6 +16,15 @@ $ source venv\bin\activate
 (venv) $ pip install Cython
 (venv) $ pip install -r requirements.txt
 ```
+
+2. Choose one of the experiments as the full datasets* (`run_full.sh`), reduced datasets (`run_reduced.sh`), or the sampled datasets (`run_sampled.sh`). For instance, running the reduced datasets:
+
+```commandline
+(venv) $ chmod +x run_reduced.sh
+(venv) $ ./run_reduced.sh
+```
+
+_* the full datasets are not part of this repository, see instructions on how to download the datasets inside the _`full_datasets`_ folder._
 
 ## Some possible configurations
 - To simulate other federated learning strategies of aggregation, the changes must be made to `server.py` according to [Flower documentation](https://flower.dev/docs/strategies.html).
