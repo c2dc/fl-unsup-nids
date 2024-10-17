@@ -1,7 +1,10 @@
 import argparse
 import flwr as fl
 from utils import model, load_data
+import os
 
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 # from flwr.dataset.utils.common import create_lda_partitions # latent dirichlet allocation distribution
 
@@ -59,7 +62,7 @@ def main():
     if args.full:
         sample_silo = "./full_datasets/NF-UNSW-NB15-v2.csv.gz"
     else:
-        sample_silo = "./sampled_datasets/nb15_sampled.csv.gz"
+        sample_silo = "./sampled_datasets/toniot_sampled.csv.gz"
     x_train, _, _, _ = load_data.load_data(sample_silo, info=False, full=args.full)
     
     if args.with_efc:
@@ -73,7 +76,7 @@ def main():
     strategy = fl.server.strategy.FedAvg(
         fraction_fit=1,
         fraction_eval=1,
-        min_available_clients=4,
+        min_available_clients=3,
         evaluate_metrics_aggregation_fn=average_metrics,
         # eval_fn=centralized_eval,
         # on_fit_config_fn=fit_config,
@@ -93,7 +96,7 @@ def main():
 
     # Start Flower server
     fl.server.start_server(
-            "[::]:4687",
+            "localhost:4687",
         config={"num_rounds": 10},
         strategy=strategy
     )

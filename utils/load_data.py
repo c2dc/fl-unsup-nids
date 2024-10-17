@@ -10,8 +10,12 @@ def remove_features(df, full, feats=not_applicable_features):
     if full:
         feats.remove('Dataset')
     
-    X = df.drop(columns=feats)
-    y = df['Label']
+    # for anomaly-flow comparison, only DDoS and Benign
+    sub_df = df[df['Attack'].isin(["Benign", "DDoS"])].copy()
+
+    X = sub_df.drop(columns=feats)
+    y = sub_df['Label']
+    print("> Change of df for anomaly-flow (num_rows, only benign and ddos): ", df.shape, sub_df.shape)
     return X, y
 
 def train_test_scaled(X, y, test_size):

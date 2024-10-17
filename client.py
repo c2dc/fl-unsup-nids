@@ -158,7 +158,7 @@ def main():
     # Start Flower client		
     client = FlwrClient(args.silo, with_efc=args.with_efc, full=args.full)
 
-    fl.client.start_numpy_client(server_address="[::]:4687", client=client)
+    fl.client.start_numpy_client(server_address="localhost:4687", client=client)
 
 
 if __name__ == "__main__":
