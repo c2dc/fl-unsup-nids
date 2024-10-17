@@ -1,5 +1,9 @@
 # Generalizing intrusion detection for heterogeneous networks: A stacked-unsupervised federated learning approach
 
+_This branch anomaly-flow-baseline is part of the [anomaly-flow](https://github.com/c2dc/anomaly-flow) work._
+
+---
+
 This repository relates to our paper that describes the stacked-unsupervised federated learning (FL) approach to generalize on a cross-silo configuration for a flow-based network intrusion detection system (NIDS). The proposed approach we have looked over is a deep autoencoder in conjunction with an energy flow classifier in an ensemble learning task. 
 
 Our approach performs better than traditional local learning and naive cross-evaluation (training in one context and testing on another network data). Remarkably, the proposed approach demonstrates a sound performance in the case of non-iid data silos. Along with an informative feature in an ensemble architecture for unsupervised learning, we advise that the proposed FL-based NIDS results in a feasible approach for generalization between heterogeneous networks.
