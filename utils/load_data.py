@@ -25,9 +25,12 @@ def remove_features(df, full, feats=not_applicable_features):
     
     # for anomaly-flow comparison, only DDoS and Benign
     sub_df = df[df['Attack'].isin(["Benign", "DDoS"])].copy()
+    y = sub_df['Label'].copy()
 
-    X = sub_df.drop(columns=feats)
-    y = sub_df['Label']
+    sub_df.drop(columns=feats, inplace=True)
+    
+    X = sub_df
+    
     print(">> Change of df for anomaly-flow (num_rows, only benign and ddos): ", df.shape, sub_df.shape, "| Distribution:", y.value_counts(), " - ", y.value_counts(normalize=True))
     print(">>> Features:", X.columns.values)
     return X, y
