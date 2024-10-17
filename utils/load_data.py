@@ -1,10 +1,23 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 seed=42
 
-not_applicable_features = ['IPV4_SRC_ADDR', 'L4_SRC_PORT', 'IPV4_DST_ADDR', 'L4_DST_PORT', 'Attack', 'Dataset', 'Label']
+# from anomaly-flow: https://github.com/c2dc/anomaly-flow/blob/main/anomaly_flow/data/netflow.py#L142
+# __features_to_drop = [
+#             'Unnamed: 0',
+#             'IPV4_SRC_ADDR', 
+#             'IPV4_DST_ADDR', 
+#             'L7_PROTO', 
+#             'L4_SRC_PORT', 
+#             'L4_DST_PORT', 
+#             'FTP_COMMAND_RET_CODE',
+#             'Attack'
+#         ]
+
+not_applicable_features = ['L7_PROTO', 'FTP_COMMAND_RET_CODE', 'IPV4_SRC_ADDR', 'L4_SRC_PORT', 'IPV4_DST_ADDR', 'L4_DST_PORT', 'Attack', 'Dataset', 'Label']
 
 def remove_features(df, full, feats=not_applicable_features):
     if full:
@@ -15,7 +28,8 @@ def remove_features(df, full, feats=not_applicable_features):
 
     X = sub_df.drop(columns=feats)
     y = sub_df['Label']
-    print("> Change of df for anomaly-flow (num_rows, only benign and ddos): ", df.shape, sub_df.shape)
+    print(">> Change of df for anomaly-flow (num_rows, only benign and ddos): ", df.shape, sub_df.shape, "| Distribution:", y.value_counts(), " - ", y.value_counts(normalize=True))
+    print(">>> Features:", X.columns.values)
     return X, y
 
 def train_test_scaled(X, y, test_size):
