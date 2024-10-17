@@ -9,8 +9,9 @@
 
 echo "Starting Federated Learning server using Flower"
 
-# python server.py --with_efc &
+#python server.py --with_efc &
 python server.py & # without EFC
+
 sleep 10  # Sleep to give the server enough time to start
 
 for filename in ./sampled_datasets/*.csv.gz; do
