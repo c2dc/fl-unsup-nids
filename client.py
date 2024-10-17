@@ -129,8 +129,8 @@ class FlwrClient(fl.client.NumPyClient):
         ######################
         # Threshold Criteria #
         ######################
-        test_eval = distance_calc(losses, self.threshold_benign, self.threshold_attack) # this considers both benign and attack thresholds
-        # test_eval = losses > self.threshold_benign  # this considers only the benign threshold (comment out this line to use this criteria)
+        #test_eval = distance_calc(losses, self.threshold_benign, self.threshold_attack) # this considers both benign and attack thresholds
+        test_eval = losses > self.threshold_benign  # this considers only the benign threshold (comment out this line to use this criteria)
 
         acc, rec, prec, f1, mcc, missrate, fallout, auc = eval_learning(self.y_test, test_eval)
 
