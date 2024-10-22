@@ -38,8 +38,41 @@ def remove_features(df, full, feats=not_applicable_features):
 def train_test_scaled(X, y, test_size):
     scaler = MinMaxScaler()
     indices = list(X.index)
-    X_train, X_test, y_train, y_test, _, test_index = train_test_split(X, y, indices, test_size=test_size, 
-                                                       random_state=seed, stratify=y)
+
+    ############################################################
+    # introduced for Anomaly-Flow baseline
+    ############################################################
+    SAMPLES_USED_BY_ANOMALY_FLOW = 300000
+    X_benign = X[y == 0]
+    y_benign = y[y == 0]
+    available_benign_samples = len(X_benign)
+    samples_to_use = min(available_benign_samples, SAMPLES_USED_BY_ANOMALY_FLOW)
+
+    if samples_to_use < available_benign_samples:
+        X_benign_sampled, _, y_benign_sampled, _ = train_test_split(
+            X_benign, y_benign, test_size=(available_benign_samples - samples_to_use), random_state=seed
+        )
+    else:
+        X_benign_sampled = X_benign
+        y_benign_sampled = y_benign
+
+    X_ddos = X[y != 0]
+    y_ddos = y[y != 0]
+
+    X_combined = pd.concat([X_benign_sampled, X_ddos])
+    y_combined = pd.concat([y_benign_sampled, y_ddos])
+
+    combined_data = pd.concat([X_combined, y_combined], axis=1)
+    combined_data = combined_data.sample(frac=1, random_state=seed).reset_index(drop=True)
+
+    X_combined = combined_data.iloc[:, :-1]
+    y_combined = combined_data.iloc[:, -1]
+
+    indices = list(X_combined.index)
+    ############################################################
+
+    X_train, X_test, y_train, y_test, _, test_index = train_test_split(X_combined, y_combined, indices, test_size=test_size, 
+                                                       random_state=seed, stratify=y_combined)
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
     return X_train, y_train, X_test, y_test, test_index
@@ -56,6 +89,7 @@ def load_data(cid, info=True, test_size=0.2, full=False):
         print(">> \033[1m {} \033[0m - Total samples: {}, Benign: {}, Malicious: {}, Labels: {}"\
             .format(cid[cid.rfind("/")+1:cid.find(".csv")], df.shape[0], sum(df.Label == 0), \
             sum(df.Label == 1), sorted(list(df.Attack.unique().astype(str)))))
+    
     X, y = remove_features(df, full=full)
     x_train, y_train, x_test, y_test, test_index = train_test_scaled(X, y, test_size)
 

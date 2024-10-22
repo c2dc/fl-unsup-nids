@@ -59,16 +59,10 @@ def main():
 
     # initializing a generic model to get its parameters
     # reference: https://github.com/adap/flower/blob/main/tutorials/Flower-2-Strategies-in-FL-PyTorch.ipynb
-    if args.full:
-        sample_silo = "./full_datasets/NF-UNSW-NB15-v2.csv.gz"
-    else:
-        sample_silo = "./sampled_datasets/toniot_sampled.csv.gz"
-    x_train, _, _, _ = load_data.load_data(sample_silo, info=False, full=args.full)
+    sample_silo = "./sampled_datasets/toniot_sampled.csv.gz"
+    x_train, _, _, _ = load_data.load_data(sample_silo, info=False)
     
-    if args.with_efc:
-        params = model.create_model(x_train.shape[1] + 1).get_weights()  # Additional Feature if using EFC
-    else:
-        params = model.create_model(x_train.shape[1]).get_weights()
+    params = model.create_model(x_train.shape[1]).get_weights()
 
     del x_train
 
