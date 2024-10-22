@@ -19,8 +19,57 @@ seed=42
 
 not_applicable_features = ['L7_PROTO', 'FTP_COMMAND_RET_CODE', 'IPV4_SRC_ADDR', 'L4_SRC_PORT', 'IPV4_DST_ADDR', 'L4_DST_PORT', 'Attack', 'Dataset', 'Label']
 
+dtypes_netflow = {
+    "IPV4_SRC_ADDR":                "object",
+    "L4_SRC_PORT":                  "float32",
+    "IPV4_DST_ADDR":                "object",
+    "L4_DST_PORT":                  "float32",
+    "PROTOCOL":                     "float32",
+    "L7_PROTO":                     "float64",
+    "IN_BYTES":                     "float32",
+    "IN_PKTS":                      "float32",
+    "OUT_BYTES":                    "float32",
+    "OUT_PKTS":                     "float32",
+    "TCP_FLAGS":                    "int32",
+    "CLIENT_TCP_FLAGS":             "int32",
+    "SERVER_TCP_FLAGS":             "int32",
+    "FLOW_DURATION_MILLISECONDS":   "float32",
+    "DURATION_IN":                  "float32",
+    "DURATION_OUT":                 "float32",
+    "MIN_TTL":                      "float32",
+    "MAX_TTL":                      "float32",
+    "LONGEST_FLOW_PKT":             "float32",
+    "SHORTEST_FLOW_PKT":            "float32",
+    "MIN_IP_PKT_LEN":               "float32",
+    "MAX_IP_PKT_LEN":               "float32",
+    "SRC_TO_DST_SECOND_BYTES":      "float64",
+    "DST_TO_SRC_SECOND_BYTES":      "float64",
+    "RETRANSMITTED_IN_BYTES":       "float32",
+    "RETRANSMITTED_IN_PKTS":        "float32",
+    "RETRANSMITTED_OUT_BYTES":      "float32",
+    "RETRANSMITTED_OUT_PKTS":       "float32",
+    "SRC_TO_DST_AVG_THROUGHPUT":    "float32",
+    "DST_TO_SRC_AVG_THROUGHPUT":    "float32",
+    "NUM_PKTS_UP_TO_128_BYTES":     "float32",
+    "NUM_PKTS_128_TO_256_BYTES":    "float32",
+    "NUM_PKTS_256_TO_512_BYTES":    "float32",
+    "NUM_PKTS_512_TO_1024_BYTES":   "float32",
+    "NUM_PKTS_1024_TO_1514_BYTES":  "float32",
+    "TCP_WIN_MAX_IN":               "float32",
+    "TCP_WIN_MAX_OUT":              "float32",
+    "ICMP_TYPE":                    "float32",
+    "ICMP_IPV4_TYPE":               "float32",
+    "DNS_QUERY_ID":                 "float32",
+    "DNS_QUERY_TYPE":               "float32",
+    "DNS_TTL_ANSWER":               "float32",
+    "FTP_COMMAND_RET_CODE":         "float32",
+    "Attack":                       "object",
+    "Label":                        "float32",
+}
+
+
 def remove_features(df, full, feats=not_applicable_features):
-    if full:
+    if full or 'Dataset' not in df.columns.values:
         feats.remove('Dataset')
     
     # for anomaly-flow comparison, only DDoS and Benign
@@ -79,10 +128,33 @@ def train_test_scaled(X, y, test_size):
 
 
 def load_data(cid, info=True, test_size=0.2, full=False):
-    if ("NF-BoT-IoT-v2.csv.gz" in cid):
-        df = pd.read_csv(cid, low_memory=True, nrows=18893708) # Same nrows as CSE-CIC-IDS-2018
+    # if ("NF-BoT-IoT-v2.csv.gz" in cid):
+    #     df = pd.read_csv(cid, low_memory=True, nrows=18893708) # Same nrows as CSE-CIC-IDS-2018
+    # else:
+    #     df = pd.read_csv(cid, low_memory=True)
+
+    # Anomaly-Flow baseline
+    # to get the max of benign samples from Bot-IoT uses the full dataset
+    if ("botiot_sampled.csv.gz" in cid):   
+        try:
+            filtered_data = []
+            chunk_size = 10**6
+            for chunk in pd.read_csv("./full_datasets/NF-BoT-IoT-v2.csv.gz", chunksize=chunk_size, low_memory=True, dtype=dtypes_netflow):
+                benign_chunk = chunk[chunk['Attack'] == "Benign"]
+                ddos_chunk = chunk[chunk['Attack'] == "DDoS"]
+                
+                filtered_chunk = benign_chunk   # keep all benign
+                ddos_sampled_chunk = ddos_chunk.sample(frac=0.05, random_state=42)  # originally there are 18.331.847 DDoS samples, getting 5% = 916592
+                filtered_chunk = pd.concat([filtered_chunk, ddos_sampled_chunk])
+                
+                filtered_data.append(filtered_chunk)
+            
+            df = pd.concat(filtered_data, ignore_index=True)
+
+        except Exception as e:
+            print(f"[!] Check the source-code, you need the full Bot-IoT to run this baseline. | {e}")
     else:
-        df = pd.read_csv(cid, low_memory=True)
+        df = pd.read_csv(cid, low_memory=True, dtype=dtypes_netflow)
 
     df.dropna(inplace=True)
     if info:
@@ -94,8 +166,8 @@ def load_data(cid, info=True, test_size=0.2, full=False):
     x_train, y_train, x_test, y_test, test_index = train_test_scaled(X, y, test_size)
 
 
-    if info:
-        ref = cid[cid.rfind("/") + 1:cid.find(".csv")]
-        df['Attack'].iloc[test_index].to_csv("./error_analysis/" + ref + "_test_classes.csv")
+    # if info:
+    #     ref = cid[cid.rfind("/") + 1:cid.find(".csv")]
+    #     df['Attack'].iloc[test_index].to_csv("./error_analysis/" + ref + "_test_classes.csv")
 
     return x_train, y_train, x_test, y_test
