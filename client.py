@@ -92,7 +92,7 @@ class FlwrClient(fl.client.NumPyClient):
             self.train_data,
             batch_size=128,  # config["batch_size"],
             shuffle=True,
-            epochs=10  # config["num_epochs"] # single epoch on local data
+            epochs=50  # config["num_epochs"] # single epoch on local data | 50 epochs like anomaly-flow
         )
 
         # return the refined model parameters with get_weights, the length of local data,
