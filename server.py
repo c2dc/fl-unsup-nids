@@ -1,10 +1,10 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 import argparse
 import flwr as fl
 from utils import model, load_data
-import os
 
-
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 # from flwr.dataset.utils.common import create_lda_partitions # latent dirichlet allocation distribution
 
