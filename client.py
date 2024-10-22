@@ -1,15 +1,15 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 import flwr as fl
 import tensorflow as tf
 import argparse
 import pandas as pd
-import os
 import numpy as np
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score, matthews_corrcoef, roc_auc_score
 from utils import model, load_data
 from efc import EnergyBasedFlowClassifier
 
-# Make TensorFlow logs less verbose
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 
 def eval_learning(y_test, preds):
